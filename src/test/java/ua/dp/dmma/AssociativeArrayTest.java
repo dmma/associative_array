@@ -17,8 +17,8 @@ public class AssociativeArrayTest
     }
 
     @Test
-    public void testCreateDataForArray()
+    public void testGetNMaxValuesFromArray()
     {
-        associativeArray.createDataForArray();
+        associativeArray.getNMaxValuesFromArray(10, 100);
     }
 }
