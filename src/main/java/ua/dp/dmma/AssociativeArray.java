@@ -10,7 +10,6 @@ public class AssociativeArray
 {
     private static final int ARRAY_SIZE = 1_000_000;
 
-
     public List<Double> getNMaxValuesFromArray(int numberOfElements, int rangeBound)
     {
         Random random = new Random();
@@ -18,7 +17,8 @@ public class AssociativeArray
 
         while (associativeArray.size() < ARRAY_SIZE)
         {
-            associativeArray.put(new CompositeKey(random.nextInt(rangeBound) + 1, random.nextInt(rangeBound) + 1, random.nextInt(rangeBound) + 1), random.nextDouble());
+            associativeArray.put(new CompositeKey(random.nextInt(rangeBound) + 1, random.nextInt(rangeBound) + 1, random.nextInt(rangeBound) + 1),
+                            random.nextDouble());
         }
 
         return getCheckKeysList(random, rangeBound).stream().map(associativeArray::get).filter(aDouble -> aDouble != null).sorted().limit(numberOfElements)
@@ -35,7 +35,7 @@ public class AssociativeArray
         int sequenceLength = 2;
 
         int[] tmp = { 0, 1 };
-        combinationList.add(getSubset(keysBuildingSource, tmp));
+        combinationList.add(getCombination(keysBuildingSource, tmp));
 
         for (; ; )
         {
@@ -51,14 +51,19 @@ public class AssociativeArray
             {
                 tmp[i] = tmp[i - 1] + 1;
             }
-            combinationList.add(getSubset(keysBuildingSource, tmp));
+            combinationList.add(getCombination(keysBuildingSource, tmp));
         }
 
-        return combinationList.stream().map(combination -> new CompositeKey(firstElementOfKey, combination[0], combination[1]))
-                        .collect(Collectors.toList());
+        List<CompositeKey> compositeKeyList = new ArrayList<>();
+        combinationList.forEach(combination ->
+        {
+            compositeKeyList.add(new CompositeKey(firstElementOfKey, combination[0], combination[1]));
+            compositeKeyList.add(new CompositeKey(firstElementOfKey, combination[1], combination[0]));
+        });
+        return compositeKeyList;
     }
 
-    private int[] getSubset(int[] input, int[] subset)
+    private int[] getCombination(int[] input, int[] subset)
     {
         int[] result = new int[subset.length];
         for (int i = 0; i < subset.length; i++)

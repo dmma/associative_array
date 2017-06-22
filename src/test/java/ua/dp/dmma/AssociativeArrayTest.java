@@ -19,6 +19,6 @@ public class AssociativeArrayTest
     @Test
     public void testGetNMaxValuesFromArray()
     {
-        associativeArray.getNMaxValuesFromArray(10, 100);
+        associativeArray.getNMaxValuesFromArray(10, 1000).forEach(System.out::println);
     }
 }
